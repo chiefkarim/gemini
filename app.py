@@ -1,19 +1,11 @@
-from google import genai
-from dotenv import load_dotenv
-import os
+from fastapi import FastAPI
+from fastapi.responses import StreamingResponse
+from chat import chat as chat
 
-load_dotenv()
-API_KEY = os.getenv('API_KEY')
+app = FastAPI()
+# TODO: change response type in the docs
 
-if not API_KEY:
-    raise ValueError('Please add API_KEY to .env file!')
 
-client = genai.Client(api_key=API_KEY)
-
-chat = client.chats.create(
-    model="gemini-2.0-flash",
-)
-response = chat.send_message_stream('what is typescript breifly')
-
-for chunck in response:
-    print(chunck.text, end="")
+@app.get('/')
+def get_chat():
+    return StreamingResponse(chat(), media_type='text/plain')
