@@ -19,7 +19,7 @@ def chat():
     chat = client.chats.create(
         model="gemini-2.0-flash",
     )
-    image = PIL.Image.open('./api/utils/avatar-1.jpg')
+    image = PIL.Image.open('./utils/avatar-1.jpg')
     response = chat.send_message_stream(['describe what do you see, and write 20 lines response analysing potenial personality of the person in the image', image])
 
     for chunck in response:
