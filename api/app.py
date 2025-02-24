@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
-from chat import chat as chat
+from chat import chat
 
 app = FastAPI()
 # TODO: change response type in the docs
