@@ -4,6 +4,7 @@ cachetools==5.5.2
 certifi==2025.1.31
 charset-normalizer==3.4.1
 click==8.1.8
+distro==1.9.0
 dnspython==2.7.0
 email_validator==2.2.0
 fastapi==0.115.8
@@ -13,7 +14,6 @@ google-api-core==2.24.1
 google-api-python-client==2.161.0
 google-auth==2.38.0
 google-auth-httplib2==0.2.0
-google-genai==1.2.0
 googleapis-common-protos==1.68.0
 grpcio==1.70.0
 grpcio-status==1.70.0
@@ -24,9 +24,11 @@ httptools==0.6.4
 httpx==0.28.1
 idna==3.10
 Jinja2==3.1.5
+jiter==0.8.2
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 mdurl==0.1.2
+openai==1.64.0
 pillow==11.1.0
 proto-plus==1.26.0
 protobuf==5.29.3
@@ -52,5 +54,6 @@ typing_extensions==4.12.2
 uritemplate==4.1.1
 urllib3==2.3.0
 uvicorn==0.34.0
+uvloop==0.21.0
 watchfiles==1.0.4
 websockets==14.2
