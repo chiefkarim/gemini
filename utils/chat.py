@@ -1,4 +1,4 @@
-from google import genai
+from openai import OpenAI
 from dotenv import load_dotenv
 import os
 from models.user_prompt import UserPrompt
@@ -13,12 +13,29 @@ if not API_KEY:
 # first stream is taking some time which makes the user experince bad
 
 
-def chat(prompt: UserPrompt):
-    client = genai.Client(api_key=API_KEY)
-    chat = client.chats.create(
-        model="gemini-2.0-flash",
-    )
-    response = chat.send_message_stream(prompt.prompt)
+# TODO: type the function returned data
 
-    for chunck in response:
-        yield f'{chunck.text}'
+def chat(prompt: UserPrompt):
+    client = OpenAI(
+        api_key=API_KEY,
+        base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+    )
+    response = client.chat.completions.create(
+        model="gemini-2.0-flash",
+        n=1,
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {
+                "role": "user",
+                "content": prompt.prompt}
+        ],
+        stream=True
+    )
+    for chunk in response:
+        yield f"{chunk.choices[0].delta.content or ''}"
+
+
+# TODO: uninstall genai package
+
+
+# TODO:  make the function async

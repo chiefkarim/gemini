@@ -1,6 +1,7 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import List
 
 
 class UserPrompt(BaseModel):
-    prompt: Optional[str] = None
+    prompt: str
+    chatHistory: List[str]
