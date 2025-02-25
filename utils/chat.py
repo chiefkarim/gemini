@@ -1,7 +1,7 @@
 from google import genai
 from dotenv import load_dotenv
 import os
-import PIL.Image
+from models.user_prompt import UserPrompt
 
 load_dotenv()
 API_KEY = os.getenv('API_KEY')
@@ -13,14 +13,12 @@ if not API_KEY:
 # first stream is taking some time which makes the user experince bad
 
 
-def chat():
+def chat(prompt: UserPrompt):
     client = genai.Client(api_key=API_KEY)
-
     chat = client.chats.create(
         model="gemini-2.0-flash",
     )
-    image = PIL.Image.open('./utils/avatar-1.jpg')
-    response = chat.send_message_stream(['describe what do you see, and write 20 lines response analysing potenial personality of the person in the image', image])
+    response = chat.send_message_stream(prompt.prompt)
 
     for chunck in response:
         yield f'{chunck.text}'

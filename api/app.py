@@ -1,11 +1,10 @@
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from utils.chat import chat
-
+from models.user_prompt import UserPrompt
 app = FastAPI()
-# TODO: change response type in the docs
 
 
-@app.get('/')
-def get_chat():
-    return StreamingResponse(chat(), media_type='text/plain')
+@app.post('/')
+async def post_chat(prompt: UserPrompt):
+    return StreamingResponse(chat(prompt), media_type='text/plain')
