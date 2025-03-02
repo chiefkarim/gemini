@@ -5,7 +5,7 @@ from models.user_prompt import UserPrompt
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-origins = ["http://localhost:3000", "https://gemini-frontend-git-chat-v1-chiefkarims-projects.vercel.app/"]
+origins = ["http://localhost:3000", "https://gemini-frontend-git-chat-v1-chiefkarims-projects.vercel.app"]
 
 app.add_middleware(
     CORSMiddleware,
