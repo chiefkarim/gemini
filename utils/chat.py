@@ -28,7 +28,7 @@ def chat(prompt: UserPrompt):
         model="gemini-2.0-flash",
         n=1,
         messages=[
-            prompt.chatHistory,
+            *prompt.chatHistory,
             {"role": "system", "content": "You are a helpful assistant."},
             {
                 "role": "user",
