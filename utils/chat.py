@@ -29,7 +29,8 @@ def chat(prompt: UserPrompt):
         n=1,
         messages=[
             *prompt.chatHistory,
-            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": """You are a helpful assistant.
+             You use code comments to explain parts of the code."""},
             {
                 "role": "user",
                 "content": prompt.prompt}
