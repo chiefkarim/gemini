@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
-from utils.chat import chat
+from services.chat import chat
 from models.user_prompt import UserPrompt
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -13,6 +13,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+# TODO: handle errors
 
 
 @app.post('/')
