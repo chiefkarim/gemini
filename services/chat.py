@@ -1,6 +1,8 @@
-from openai import OpenAI, APIError, APIConnectionError, RateLimitError
+from typing import Iterable
+from openai import OpenAI
 from dotenv import load_dotenv
 import os
+from openai.types.chat import ChatCompletionToolParam
 from models.user_prompt import UserPrompt
 import asyncio
 
@@ -23,6 +25,31 @@ client = OpenAI(
 
 # TODO: figure out a way to presist messages
 
+tools:Iterable[ChatCompletionToolParam]= [{
+    "type": "function",
+    "function": {
+        "name": "get_weather",
+        "description": "Get current temperature for a given location.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "description": "City e.g. Tokyo or blida"
+                }
+                ,"country":{
+                    "type":"string",
+                    "description":"Country e.g. Algeria or France"
+                }
+            },
+            "required": [
+                "city","country"
+            ],
+            "additionalProperties": False
+        },
+        "strict": True
+    }
+}]
 
 async def  chat(prompt: UserPrompt):
         response = client.chat.completions.create(
@@ -30,18 +57,22 @@ async def  chat(prompt: UserPrompt):
             n=1,
             messages=[
                 *prompt.chatHistory,
-                {"role": "system", "content": """You are a helpful assistant.
-                You use code comments to explain parts of the code."""},
+                {"role": "system", "content": """You are a helpful assistant and a funny weather woman.
+                You ALWAYS call the get_weather function when asked for weather information.
+                Even if the location seems strange, you must ask for clarification if the country or city seems off.                """},
                 {
                     "role": "user",
                     "content": prompt.prompt}
+
             ],
             stream=True
+        ,tools=tools
+        ,temperature=1,
         )
 
         for chunk in response:
-            chunk.model_parametrized_name
             yield f"{chunk.choices[0].delta.content or ''}"
+            print(chunk.choices[0].delta.tool_calls)
             await asyncio.sleep(1)
 
     # TODO: uninstall genai package
