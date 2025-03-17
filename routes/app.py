@@ -14,7 +14,6 @@ app.add_middleware(
     CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"]
 )
 
-# TODO: handle errors
 
 
 @app.post("/", description="sends a stream of data for chating with gemeni llm")
