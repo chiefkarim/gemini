@@ -20,5 +20,3 @@ app.add_middleware(
 async def post_chat(prompt: UserPrompt):
     return StreamingResponse(chat(prompt), media_type="text/plain")
 
-
-# TODO: clean up unused packages
