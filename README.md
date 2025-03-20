@@ -79,21 +79,32 @@ uvicorn routes.app:app --reload
 
 This will start the API server locally.
 
-### API Endpoints
+### Running in Production
 
-You can test API endpoints via:
+Use the following command to run the chatbot in a production-ready setup:
 
-- [Swagger UI](http://localhost:8000/docs) (if enabled)
-- Postman or similar API testing tools
+```bash
+uvicorn routes.app:app --host 0.0.0.0 --port 8000 --workers 4
+```
+
+This will:
+
+- Bind the app to **all network interfaces (`0.0.0.0`)** so it's accessible externally.
+- Run on **port 8000** (change as needed).
+- Use **4 worker processes** for handling multiple requests efficiently.
+
+## For **Vercel deployment**, the server will automatically start using the configurations defined in `vercel.json`
 
 ---
 
 ## 🔧 Configuration
 
-Environment variables are stored in `.env`. Here are some expected values:
+Environment variables are stored in `.env`. A sample configuration is provided in `.env.example`.
 
-```
-API_KEY=<your-api-key>
+To set up your environment, copy `.env.example` and rename it to `.env`:
+
+```bash
+cp .env.example .env
 ```
 
 ---
@@ -101,16 +112,18 @@ API_KEY=<your-api-key>
 ## 🗂️ Project Structure
 
 ```
+
 gemini/
-│── models/           # Data models and schemas
-│── routes/           # API route handlers
-│── services/         # Core logic for chatbot interactions
-│── scripts/          # Utility scripts
-│── .env              # Environment variables (ignored in Git)
-│── requirements.txt  # Dependencies
-│── pyproject.toml    # Project configuration
-│── vercel.json       # Deployment settings
-│── README.md         # Documentation
+│── models/ # Data models and schemas
+│── routes/ # API route handlers
+│── services/ # Core logic for chatbot interactions
+│── scripts/ # Utility scripts
+│── .env # Environment variables (ignored in Git)
+│── requirements.txt # Dependencies
+│── pyproject.toml # Project configuration
+│── vercel.json # Deployment settings
+│── README.md # Documentation
+
 ```
 
 ---
@@ -130,4 +143,9 @@ Contributions are welcome! Please fork the repo and submit a PR.
 ---
 
 Now it correctly uses `uv install` instead of `uv pip install`. Let me know if you need any more refinements! 🚀🔥
+
+```
+
+```
+
 ```
