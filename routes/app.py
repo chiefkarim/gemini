@@ -15,8 +15,6 @@ app.add_middleware(
 )
 
 
-
 @app.post("/", description="sends a stream of data for chating with gemeni llm")
 async def post_chat(prompt: UserPrompt):
     return StreamingResponse(chat(prompt), media_type="text/plain")
-

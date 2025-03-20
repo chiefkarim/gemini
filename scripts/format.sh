@@ -1,5 +1,5 @@
 #!/bin/sh -e
 set -x
 
-ruff check routes utils models scripts --fix
-ruff format routes utils models scripts
+ruff check routes services models scripts --fix
+ruff format routes services models scripts
