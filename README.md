@@ -119,6 +119,7 @@ gemini/
 │── services/ # Core logic for chatbot interactions
 │── scripts/ # Utility scripts
 │── .env # Environment variables (ignored in Git)
+│── .env.example # Environment variables example
 │── requirements.txt # Dependencies
 │── pyproject.toml # Project configuration
 │── vercel.json # Deployment settings
@@ -130,7 +131,67 @@ gemini/
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please fork the repo and submit a PR.
+We welcome contributions! Please follow these steps:
+
+### 1️⃣ Switch to the Development Branch
+
+All new features and fixes should be based on the `development` branch:
+
+```bash
+git checkout development
+git pull origin development  # Ensure it's up to date
+```
+
+### 2️⃣ Create a New Branch for Your Changes
+
+Use a descriptive branch name related to your changes:
+
+```bash
+git checkout -b name-your-feature  # For new features
+git checkout -b name-your-fix      # For bug fixes
+```
+
+### 3️⃣ Make Your Changes
+
+Modify the necessary files, then commit your changes using **Conventional Commits**:
+
+```bash
+git add .
+git commit -m "feat: add support for new API endpoint"
+```
+
+#### ✅ **Commit Message Format**
+
+```
+<type>: <short description>
+
+[optional body]
+[optional footer]
+```
+
+#### 📝 **Commit Types**
+
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation updates
+- `chore`: Maintenance tasks (e.g., dependencies, configs)
+- `refactor`: Code changes that don’t add features or fix bugs
+- `test`: Adding or updating tests
+- `ci`: Continuous integration updates
+
+### 4️⃣ Push Your Branch
+
+```bash
+git push origin name-feature
+```
+
+### 5️⃣ Create a Pull Request (PR)
+
+- Open a **Pull Request (PR)** on GitHub, targeting the `development` branch.
+- Follow the PR template (if available).
+- Wait for code review and approval before merging.
+
+Once approved, your changes will be merged. 🎉
 
 ---
 
@@ -138,14 +199,4 @@ Contributions are welcome! Please fork the repo and submit a PR.
 
 [MIT License](LICENSE) – Feel free to modify and use this project.
 
-```
-
 ---
-
-Now it correctly uses `uv install` instead of `uv pip install`. Let me know if you need any more refinements! 🚀🔥
-
-```
-
-```
-
-```
