@@ -4,6 +4,7 @@ import os
 from models.user_prompt import UserPrompt
 import asyncio
 
+
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
 

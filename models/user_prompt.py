@@ -5,6 +5,7 @@ from openai.types.chat import (
     ChatCompletionUserMessageParam,
 )
 
+
 class UserPrompt(BaseModel):
     prompt: str = Field(examples=["what is typescript"])
     chatHistory: List[
