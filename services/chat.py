@@ -14,8 +14,6 @@ client = OpenAI(
     api_key=API_KEY, base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
 )
 
-# TODO: type the function returned data
-
 
 async def chat(prompt: UserPrompt):
     response = client.chat.completions.create(
@@ -40,9 +38,3 @@ async def chat(prompt: UserPrompt):
             for ch in text.split(" "):
                 yield f"{ch + ' ' or ''}"
                 await asyncio.sleep(0.03)
-
-
-# TODO: uninstall genai package
-
-
-# TODO:  make the function async

@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import  FastAPI, status
 from fastapi.responses import StreamingResponse
 from services.chat import chat
 from models.user_prompt import UserPrompt
@@ -15,6 +15,6 @@ app.add_middleware(
 )
 
 
-@app.post("/", description="sends a stream of data for chating with gemeni llm")
+@app.post("/", description="sends a stream of data for chating with gemeni llm",status_code=status.HTTP_201_CREATED)
 async def post_chat(prompt: UserPrompt):
     return StreamingResponse(chat(prompt), media_type="text/plain")

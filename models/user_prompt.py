@@ -1,15 +1,9 @@
 from pydantic import BaseModel, Field
-from typing import List, Literal
+from typing import List
 from openai.types.chat import (
     ChatCompletionAssistantMessageParam,
     ChatCompletionUserMessageParam,
 )
-
-
-class Chat(BaseModel):
-    role: Literal["user", "assistant"]
-    content: str
-
 
 class UserPrompt(BaseModel):
     prompt: str = Field(examples=["what is typescript"])
