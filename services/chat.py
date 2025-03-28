@@ -17,7 +17,8 @@ client = OpenAI(
 
 
 async def chat(prompt: UserPrompt):
-    response = client.chat.completions.create(
+    try:
+        response = client.chat.completions.create(
         model="gemini-2.0-flash",
         n=1,
         messages=[
@@ -31,11 +32,14 @@ async def chat(prompt: UserPrompt):
         ],
         stream=True,
         temperature=1,
-    )
+        )
+        for chunk in response:
+            text = chunk.choices[0].delta.content
+            if text:
+                for ch in text.split(" "):
+                    yield f"{ch + ' ' or ''}"
+                    await asyncio.sleep(0.03)
+    except Exception as e:
+        print(f"Unexpected error: {e}")
 
-    for chunk in response:
-        text = chunk.choices[0].delta.content
-        if text:
-            for ch in text.split(" "):
-                yield f"{ch + ' ' or ''}"
-                await asyncio.sleep(0.03)
+    
