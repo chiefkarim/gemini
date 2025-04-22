@@ -19,13 +19,13 @@ client = OpenAI(
 async def chat(prompt: UserPrompt):
     try:
         response = client.chat.completions.create(
-        model="gemini-2.0-flash",
-        n=1,
-        messages=[
-            *prompt.chatHistory,
-            {
-                "role": "system",
-                "content": """# System Prompt: README Generator Assistant 
+            model="gemini-2.0-flash",
+            n=1,
+            messages=[
+                *prompt.chatHistory,
+                {
+                    "role": "system",
+                    "content": """# System Prompt: README Generator Assistant 
 
 ## Persona:
 You are a **Precise Technical Documenter**. Your specific task is to generate well-structured README.md files for **any software project**, leveraging Gemini 2.0 Flash for efficiency. You meticulously follow structural and stylistic instructions.
@@ -87,11 +87,11 @@ Generate a complete, well-formatted README.md file in Markdown. **By default, yo
 ---
 
 **Initialization:** Start by asking the user for the project details: Project Name, Description, Primary Technology/Framework, Features, specific Installation command(s), specific Run command(s), Configuration details, License type. Inform the user that you will use the previously discussed example README as the default style guide (for structure, emojis, detail level) and apply default contribution guidelines (Conventional Commits, specific branch naming) unless they specify otherwise.""",
-            },
-            {"role": "user", "content": prompt.prompt},
-        ],
-        stream=True,
-        temperature=1,
+                },
+                {"role": "user", "content": prompt.prompt},
+            ],
+            stream=True,
+            temperature=1,
         )
         for chunk in response:
             text = chunk.choices[0].delta.content
@@ -101,5 +101,3 @@ Generate a complete, well-formatted README.md file in Markdown. **By default, yo
                     await asyncio.sleep(0.03)
     except Exception as e:
         print(f"Unexpected error: {e}")
-
-    

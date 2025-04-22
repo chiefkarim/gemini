@@ -5,8 +5,11 @@ from repositories.get_chat_history import getChatHistory
 from services.chat import chat
 from models.user_prompt import UserPrompt
 from fastapi.middleware.cors import CORSMiddleware
+from mangum import Mangum
 
 app = FastAPI()
+handler = Mangum(app)
+
 origins = [
     "http://localhost:3000",
     "https://gemini-frontend-git-chat-v1-chiefkarims-projects.vercel.app",
@@ -17,6 +20,13 @@ app.add_middleware(
 )
 
 
+@app.get(
+    "/",
+)
+async def get_test():
+    return "hello world"
+
+
 @app.post(
     "/",
     description="sends a stream of data for chating with gemeni llm",
@@ -25,8 +35,11 @@ app.add_middleware(
 async def post_chat(prompt: UserPrompt):
     return StreamingResponse(chat(prompt), media_type="text/plain")
 
-@app.get('/chat-history',description="returns chat history",status_code=status.HTTP_200_OK)
+
+@app.get(
+    "/chat-history", description="returns chat history", status_code=status.HTTP_200_OK
+)
 async def get_chat_history():
-    db =await  connect_db()
-    chat_history =await getChatHistory(db)
-    return chat_history 
+    db = await connect_db()
+    chat_history = await getChatHistory(db)
+    return chat_history

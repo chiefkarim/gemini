@@ -25,5 +25,5 @@ docker run \
   --volume /app/.venv \
   --publish 8000:8000 \
   $INTERACTIVE \
-  $(docker build -q .) \
+  $(docker build -q --file Dockerfile.dev .) \
   "$@"

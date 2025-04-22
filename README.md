@@ -83,15 +83,13 @@ This will start the API server locally.
 
 Use the following command to run the chatbot in a production-ready setup:
 
-```bash
-uvicorn routes.app:app --host 0.0.0.0 --port 8000 --workers 4
-```
+````bash
+uvicorn routes.app:app --host 0.0.0.0 --port 8000 ```
 
 This will:
 
 - Bind the app to **all network interfaces (`0.0.0.0`)** so it's accessible externally.
 - Run on **port 8000** (change as needed).
-- Use **4 worker processes** for handling multiple requests efficiently.
 
 ## For **Vercel deployment**, the server will automatically start using the configurations defined in `vercel.json`
 
@@ -105,7 +103,7 @@ To set up your environment, copy `.env.example` and rename it to `.env`:
 
 ```bash
 cp .env.example .env
-```
+````
 
 ---
 

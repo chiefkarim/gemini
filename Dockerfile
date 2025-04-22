@@ -1,31 +1,38 @@
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
-WORKDIR /app
+FROM ghcr.io/astral-sh/uv:0.6.12 AS uv
 
-# Enable bytecode compilation
+# First, bundle the dependencies into the task root.
+FROM public.ecr.aws/lambda/python:3.13 AS builder
+
+# Enable bytecode compilation, to improve cold-start performance.
 ENV UV_COMPILE_BYTECODE=1
 
-# Copy from the cache instead of linking since it's a mounted volume
+# Disable installer metadata, to create a deterministic layer.
+ENV UV_NO_INSTALLER_METADATA=1
+
+# Enable copy mode to support bind mount caching.
 ENV UV_LINK_MODE=copy
 
-# Install the project's dependencies using the lockfile and settings
-RUN --mount=type=cache,target=/root/.cache/uv \
+# Bundle the dependencies into the Lambda task root via `uv pip install --target`.
+#
+# Omit any local packages (`--no-emit-workspace`) and development dependencies (`--no-dev`).
+# This ensures that the Docker layer cache is only invalidated when the `pyproject.toml` or `uv.lock`
+# files change, but remains robust to changes in the application code.
+RUN --mount=from=uv,source=/uv,target=/bin/uv \
+    --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-install-project --no-dev
+    uv export --frozen --no-emit-workspace --no-dev --no-editable -o requirements.txt && \
+    uv pip install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
-# Then, add the rest of the project source code and install it
-# Installing separately from its dependencies allows optimal layer caching
-ADD . /app
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev
+FROM public.ecr.aws/lambda/python:3.13
 
-# Place executables in the environment at the front of the path
-ENV PATH="/app/.venv/bin:$PATH"
+# Copy the runtime dependencies from the builder stage.
+COPY --from=builder ${LAMBDA_TASK_ROOT} ${LAMBDA_TASK_ROOT}
 
-# Reset the entrypoint, don't invoke `uv`
-ENTRYPOINT []
+# Copy the application code.
+COPY . ${LAMBDA_TASK_ROOT}/app
+WORKDIR /app
+ENV PYTHONPATH=${LAMBDA_TASK_ROOT}"/app"
 
-# Run the FastAPI application by default
-# Uses `fastapi dev` to enable hot-reloading when the `watch` sync occurs
-# Uses `--host 0.0.0.0` to allow access from outside the container
-CMD ["fastapi", "dev", "--host", "0.0.0.0", "routes/app.py"]
+# Set the AWS Lambda handler.
+CMD ["app.routes.app.handler"]
