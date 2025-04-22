@@ -5,11 +5,18 @@ from repositories.get_chat_history import getChatHistory
 from services.chat import chat
 from models.user_prompt import UserPrompt
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+from os import getenv
+
+load_dotenv()
+CORS = getenv("CORS")
+
 
 app = FastAPI()
 origins = [
     "http://localhost:3000",
     "https://gemini-frontend-git-chat-v1-chiefkarims-projects.vercel.app",
+    CORS
 ]
 
 app.add_middleware(
