@@ -14,7 +14,7 @@ CORS = getenv("CORS")
 
 app = FastAPI()
 origins = [
-    "http://localhost:3000",
+    "localhost:3000",
     "https://gemini-frontend-git-chat-v1-chiefkarims-projects.vercel.app",
     CORS
 ]
