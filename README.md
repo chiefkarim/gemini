@@ -74,7 +74,7 @@ Create a `.env` file and configure it based on your API keys and settings.
 ### Running Locally
 
 ```bash
-uvicorn routes.app:app --reload
+./scripts/run.sh
 ```
 
 This will start the API server locally.
